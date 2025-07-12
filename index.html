@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Dear Jan</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff6b6b;
+            --secondary: #ff8e8e;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+        
+        .apology-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            overflow: hidden;
+            max-width: 500px;
+            transform: scale(0.9);
+            animation: cardEntrance 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            position: relative;
+            z-index: 10;
+            transition: transform 0.3s;
+        }
+        
+        @keyframes cardEntrance {
+            to { transform: scale(1); }
+        }
+        
+        .card-header {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-header h1 {
+            font-weight: 700;
+            margin: 0;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            animation: textGlow 2s infinite alternate;
+        }
+        
+        @keyframes textGlow {
+            from { text-shadow: 0 0 5px rgba(255,255,255,0.5); }
+            to { text-shadow: 0 0 15px rgba(255,255,255,0.8); }
+        }
+        
+        .card-body {
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .heart {
+            color: var(--primary);
+            font-size: 4rem;
+            display: inline-block;
+            animation: heartbeat 1.5s infinite, float 4s ease-in-out infinite;
+            margin: 20px 0;
+            text-shadow: 0 0 10px rgba(255,107,107,0.5);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .heart:hover {
+            transform: scale(1.2);
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.3); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.3); }
+            70% { transform: scale(1); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .message {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .signature {
+            font-style: italic;
+            margin-top: 25px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .btn-apology {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 20px rgba(255,107,107,0.5);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .btn-apology:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255,107,107,0.7);
+        }
+        
+        .btn-apology:active {
+            transform: translateY(1px);
+        }
+        
+        /* Fun elements */
+        .dancing-cat {
+            position: fixed;
+            font-size: 5rem;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: none;
+            animation: dance 0.5s infinite alternate;
+        }
+        
+        @keyframes dance {
+            from { transform: translateX(-50%) rotate(-10deg); }
+            to { transform: translateX(-50%) rotate(10deg); }
+        }
+        
+        .fun-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: none;
+            animation: popIn 0.5s;
+            text-align: center;
+            max-width: 80%;
+        }
+        
+        @keyframes popIn {
+            0% { transform: translate(-50%, -50%) scale(0); }
+            80% { transform: translate(-50%, -50%) scale(1.1); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+        
+        .balloons {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            display: none;
+        }
+        
+        .balloon {
+            position: absolute;
+            width: 60px;
+            height: 80px;
+            border-radius: 50%;
+            bottom: -100px;
+            animation: floatUp 8s linear forwards;
+        }
+        
+        .balloon::before {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 30px;
+            background: #333;
+        }
+        
+        @keyframes floatUp {
+            to {
+                transform: translateY(-120vh) rotate(360deg);
+            }
+        }
+        
+        .fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 40;
+            display: none;
+        }
+        
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            animation: explode 1s forwards;
+            opacity: 0;
+        }
+        
+        @keyframes explode {
+            0% {
+                transform: translate(var(--x), var(--y)) scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--x), var(--y)) scale(1);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fun elements -->
+    <div class="dancing-cat">🐱</div>
+    <div class="fun-message" id="funMessage"></div>
+    <div class="balloons" id="balloons"></div>
+    <div class="fireworks" id="fireworks"></div>
+    
+    <!-- Apology Card -->
+    <div class="apology-card mx-3">
+        <div class="card-header">
+            <h1>My Dearest Jan</h1>
+        </div>
+        <div class="card-body">
+            <div class="heart">❤️</div>
+            <p class="message">
+                I'm really sorry for everything!<br>
+                You're the most amazing person I know.<br>
+                Please give me a chance to make it up to you!
+            </p>
+            <p class="signature">With all my love,<br>Ezbah</p>
+            <button class="btn btn-apology" id="apologyBtn">
+                <i class="fas fa-heart me-2"></i>Please Forgive Me
+            </button>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        const apologyBtn = document.getElementById('apologyBtn');
+        const funMessage = document.getElementById('funMessage');
+        const dancingCat = document.querySelector('.dancing-cat');
+        const ballonsContainer = document.getElementById('balloons');
+        const fireworksContainer = document.getElementById('fireworks');
+        
+        const funMessages = [
+            "Yay! You're the best! 🎉",
+            "I knew you'd forgive me! 😊",
+            "Let's celebrate! 🥳",
+            "You've made me so happy! 💖",
+            "Best decision ever! 👍",
+            "I'll make it up to you! 🍦🍫",
+            "Virtual hug incoming! 🤗"
+        ];
+        
+        const balloonColors = [
+            '#ff6b6b', '#6b6bff', '#6bff6b', '#ffff6b', 
+            '#ff6bff', '#6bffff', '#ff8e8e', '#8e8eff'
+        ];
+        
+        // Create ballons
+        function createBalloons() {
+            ballonsContainer.innerHTML = '';
+            ballonsContainer.style.display = 'block';
+            
+            for (let i = 0; i < 20; i++) {
+                const balloon = document.createElement('div');
+                balloon.classList.add('balloon');
+                balloon.style.left = Math.random() * 100 + 'vw';
+                balloon.style.backgroundColor = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+                balloon.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                balloon.style.animationDelay = (Math.random() * 3) + 's';
+                
+                ballonsContainer.appendChild(balloon);
+            }
+            
+            setTimeout(() => {
+                ballonsContainer.style.display = 'none';
+            }, 8000);
+        }
+        
+        // Create fireworks
+        function createFireworks() {
+            fireworksContainer.innerHTML = '';
+            fireworksContainer.style.display = 'block';
+            
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    const x = Math.random() * 100;
+                    const y = Math.random() * 100;
+                    
+                    for (let j = 0; j < 30; j++) {
+                        const angle = (j / 30) * Math.PI * 2;
+                        const distance = Math.random() * 50 + 50;
+                        const firework = document.createElement('div');
+                        firework.classList.add('firework');
+                        
+                        const xOffset = Math.cos(angle) * distance;
+                        const yOffset = Math.sin(angle) * distance;
+                        
+                        firework.style.setProperty('--x', xOffset + 'px');
+                        firework.style.setProperty('--y', yOffset + 'px');
+                        firework.style.left = x + 'vw';
+                        firework.style.top = y + 'vh';
+                        firework.style.backgroundColor = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+                        firework.style.animationDelay = (i * 0.3) + 's';
+                        
+                        fireworksContainer.appendChild(firework);
+                    }
+                }, i * 300);
+            }
+            
+            setTimeout(() => {
+                fireworksContainer.style.display = 'none';
+            }, 4000);
+        }
+        
+        // Show random fun message
+        function showFunMessage() {
+            const randomMsg = funMessages[Math.floor(Math.random() * funMessages.length)];
+            funMessage.textContent = randomMsg;
+            funMessage.style.display = 'block';
+            
+            setTimeout(() => {
+                funMessage.style.display = 'none';
+            }, 2000);
+        }
+        
+        // Dancing cat animation
+        function danceCat() {
+            dancingCat.style.display = 'block';
+            dancingCat.style.animation = 'dance 0.5s infinite alternate';
+            
+            // Move cat up
+            let position = -100;
+            const interval = setInterval(() => {
+                position += 5;
+                dancingCat.style.bottom = position + 'px';
+                
+                if (position >= window.innerHeight) {
+                    clearInterval(interval);
+                    dancingCat.style.display = 'none';
+                    dancingCat.style.bottom = '-100px';
+                }
+            }, 20);
+        }
+        
+        // Button click handler
+        apologyBtn.addEventListener('click', function() {
+            // Change button text and style
+            apologyBtn.innerHTML = '<i class="fas fa-grin-hearts me-2"></i>Thank You!';
+            apologyBtn.style.background = 'linear-gradient(45deg, #6bff6b, #8eff8e)';
+            
+            // Trigger fun animations
+            createBalloons();
+            createFireworks();
+            showFunMessage();
+            danceCat();
+            
+            // Make card jump
+            const card = document.querySelector('.apology-card');
+            card.style.animation = 'none';
+            void card.offsetWidth; // Trigger reflow
+            card.style.animation = 'cardJump 0.8s ease';
+            
+            // Add animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes cardJump {
+                    0%, 100% { transform: scale(1); }
+                    50% { transform: scale(1.1) rotate(5deg); }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Reset button after delay
+            setTimeout(() => {
+                apologyBtn.innerHTML = '<i class="fas fa-heart me-2"></i>Please Forgive Me';
+                apologyBtn.style.background = 'linear-gradient(45deg, var(--primary), var(--secondary))';
+            }, 5000);
+        });
+        
+        // Heart click effect
+        const heart = document.querySelector('.heart');
+        heart.addEventListener('click', function() {
+            heart.style.animation = 'none';
+            void heart.offsetWidth; // Trigger reflow
+            heart.style.animation = 'heartbeat 1.5s infinite, float 4s ease-in-out infinite';
+            
+            // Create mini hearts
+            for (let i = 0; i < 10; i++) {
+                const miniHeart = document.createElement('div');
+                miniHeart.innerHTML = '❤️';
+                miniHeart.style.position = 'absolute';
+                miniHeart.style.fontSize = '20px';
+                miniHeart.style.color = '#ff6b6b';
+                miniHeart.style.left = (heart.getBoundingClientRect().left + heart.offsetWidth/2 - 10) + 'px';
+                miniHeart.style.top = (heart.getBoundingClientRect().top + heart.offsetHeight/2 - 10) + 'px';
+                miniHeart.style.animation = `heartFloat${i} 1.5s ease-out forwards`;
+                miniHeart.style.pointerEvents = 'none';
+                
+                // Create unique animation
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes heartFloat${i} {
+                        0% {
+                            transform: translate(0, 0) scale(1);
+                            opacity: 1;
+                        }
+                        100% {
+                            transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * -80 - 20}px) scale(0);
+                            opacity: 0;
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                document.body.appendChild(miniHeart);
+                
+                // Remove after animation
+                setTimeout(() => {
+                    miniHeart.remove();
+                }, 1500);
+            }
+        });
+    </script>
+</body>
+</html>
